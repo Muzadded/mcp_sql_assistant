@@ -50,27 +50,27 @@ cp .env.example .env
 # 5) Run the web app
 streamlit run main.py
 ```
-File by file:
+# File by file:
 
-main.py (Streamlit web app):
--The browser UI.
--Loads your .env, checks GROQ_API_KEY, and displays a text box for your question.
--Calls the client to get:
--AI answer in plain text
--One or more generated SQL queries
--Light performance info
--Lets you copy or download the SQL and the response.
+# main.py (Streamlit web app):
+- The browser UI.
+- Loads your .env, checks GROQ_API_KEY, and displays a text box for your question.
+- Calls the client to get:
+- AI answer in plain text
+- One or more generated SQL queries
+- Light performance info
+- Lets you copy or download the SQL and the response.
 
-client/client_module.py (AI + MCP client)
--Figures out which tables are relevant using lightweight keyword matching.
--Builds a focused schema prompt for the LLM so it generates tighter SQL.
--Uses Groq llama-3.1-8b-instant to produce the SQL.
--Spins up an MCP client which talks to the local MCP server over stdio:
+#client/client_module.py (AI + MCP client)
+- Figures out which tables are relevant using lightweight keyword matching.
+- Builds a focused schema prompt for the LLM so it generates tighter SQL.
+- Uses Groq llama-3.1-8b-instant to produce the SQL.
+- Spins up an MCP client which talks to the local MCP server over stdio:
 command: python
 args: ["server/mcp_server.py"]
--Normalizes the server response into:
--output (human answer)
--sql_queries (the SQL it used)
+- Normalizes the server response into:
+- output (human answer)
+- sql_queries (the SQL it used)
 
 If you see ModuleNotFoundError: client.client_module, make sure client_module.py is inside a client/ folder and the import in main.py matches:
 ```bash
@@ -81,37 +81,37 @@ Starts an MCP server named optimized_sql.
 
 Uses OptimizedSQLQueryTool to connect to your DB and handle requests.
 
-Exposes tools the UI can call:
--run_query(query)
--get_table_info(table_name)
--get_focused_schema(relevant_tables)
--get_sample_data(table_name, limit)
--get_last_query()
--get_performance_stats()
--clear_cache()
--optimize_query(query)
--Logs performance stats and helps you spot heavy queries.
--Connection string is set here when the tool is created. The default is:
+#Exposes tools the UI can call:
+- run_query(query)
+- get_table_info(table_name)
+- get_focused_schema(relevant_tables)
+- get_sample_data(table_name, limit)
+- get_last_query()
+- get_performance_stats()
+- clear_cache()
+- optimize_query(query)
+- Logs performance stats and helps you spot heavy queries.
+- Connection string is set here when the tool is created. The default is:
 ```bash
 OptimizedSQLQueryTool(db_uri="mysql+pymysql://root:@localhost/bigshop")
 ```
--Update it to match your DB or change it to read from os.getenv("DB_URL").
+- Update it to match your DB or change it to read from os.getenv("DB_URL").
 
-tools/sql_tools.py (DB engine + helpers)
--Connects to the database with SQLAlchemy and LangChain SQL tools.
--Adds a LIMIT automatically to large SELECT queries.
--Caches schema and table lists for speed.
--Tracks query history and returns performance stats.
--Provides a simple complexity analysis with suggestions.
+#tools/sql_tools.py (DB engine + helpers)
+- Connects to the database with SQLAlchemy and LangChain SQL tools.
+- Adds a LIMIT automatically to large SELECT queries.
+- Caches schema and table lists for speed.
+- Tracks query history and returns performance stats.
+- Provides a simple complexity analysis with suggestions.
 
-.env.example
--Template for environment variables. Copy to .env and fill in:
--GROQ_API_KEY
--DB_URL
+#.env.example
+- Template for environment variables. Copy to .env and fill in:
+- GROQ_API_KEY
+- DB_URL
 
-requirements.txt
--Python packages used across the app:
--mcp, mcp-use, langchain-mcp-adapters
--langchain-groq, langchain-community
--streamlit
--pymysql
+#requirements.txt
+- Python packages used across the app:
+- mcp, mcp-use, langchain-mcp-adapters
+- langchain-groq, langchain-community
+- streamlit
+- pymysql
