@@ -61,7 +61,7 @@ streamlit run main.py
 - Light performance info
 - Lets you copy or download the SQL and the response.
 
-#client/client_module.py (AI + MCP client)
+# client/client_module.py (AI + MCP client):
 - Figures out which tables are relevant using lightweight keyword matching.
 - Builds a focused schema prompt for the LLM so it generates tighter SQL.
 - Uses Groq llama-3.1-8b-instant to produce the SQL.
@@ -81,7 +81,7 @@ Starts an MCP server named optimized_sql.
 
 Uses OptimizedSQLQueryTool to connect to your DB and handle requests.
 
-#Exposes tools the UI can call:
+# Exposes tools the UI can call:
 - run_query(query)
 - get_table_info(table_name)
 - get_focused_schema(relevant_tables)
@@ -97,19 +97,19 @@ OptimizedSQLQueryTool(db_uri="mysql+pymysql://root:@localhost/bigshop")
 ```
 - Update it to match your DB or change it to read from os.getenv("DB_URL").
 
-#tools/sql_tools.py (DB engine + helpers)
+# tools/sql_tools.py (DB engine + helpers):
 - Connects to the database with SQLAlchemy and LangChain SQL tools.
 - Adds a LIMIT automatically to large SELECT queries.
 - Caches schema and table lists for speed.
 - Tracks query history and returns performance stats.
 - Provides a simple complexity analysis with suggestions.
 
-#.env.example
+# .env.example:
 - Template for environment variables. Copy to .env and fill in:
 - GROQ_API_KEY
 - DB_URL
 
-#requirements.txt
+# requirements.txt:
 - Python packages used across the app:
 - mcp, mcp-use, langchain-mcp-adapters
 - langchain-groq, langchain-community
